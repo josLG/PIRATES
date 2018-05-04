@@ -1,7 +1,7 @@
 #include "pixel.h"
 
 pixel::pixel(){    //constructeur par défaut
-    c = BLACK;
+    c = BLUE;
     terre = false;
     occupe = false;
     surbrillance = false;
