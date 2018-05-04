@@ -1,4 +1,8 @@
 #include <Imagine/Graphics.h>
+#include <pixel.h>
 
+struct carte{
+    pixel grille [1000];
+};
 
-MultiArray <pixel, 2> cartealeatoire(int w, int h);
+carte gen_aleat();
