@@ -1,5 +1,7 @@
 #pragma once
 #include <Imagine/Graphics.h>
+using namespace Imagine;
+
 
 class pixel {
     Imagine::Color c;
