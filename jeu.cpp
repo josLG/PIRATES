@@ -4,8 +4,6 @@
 #include "carte.h"
 #include "evenement.h"
 #include "deplacement.h"
-#include <iostream>
-using namespace std;
 
 
 int main() {

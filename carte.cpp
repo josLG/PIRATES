@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-IntPoint2* gen_aleat(){
+/*IntPoint2* gen_aleat(){
     int l=int(W/4); //côté du sous-carré
     IntPoint2 ile[7]; //lieu des points qui vont générer les différentes îles
     int k=0;
@@ -19,7 +19,7 @@ IntPoint2* gen_aleat(){
         }
     }
     return ile;
-}
+}*/
 
 
 void affiche_carte(carte map){
