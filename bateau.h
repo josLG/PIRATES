@@ -2,8 +2,8 @@
 #include <Imagine/Graphics.h>
 
 class bateau {
-    int x;
-    int y;
+    int xb;
+    int yb;
     int joueur;
     bool tresor;
 public:

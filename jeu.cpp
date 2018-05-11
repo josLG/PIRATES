@@ -4,14 +4,18 @@
 #include "carte.h"
 #include "evenement.h"
 #include "deplacement.h"
-
+#include <iostream>
+using namespace std;
 
 
 int main() {
+    srand((unsigned int)time(0));
     carte map;
     openWindow(W,H);
-    affiche_carte(map);
+    fillRect(0,0,W,H,BLUE);
+    IntPoint2* dd=gen_aleat();
     endGraphics();
+
  return (0);
 }
 
