@@ -13,7 +13,13 @@ int main() {
     carte map;
     openWindow(W,H);
     fillRect(0,0,W,H,BLUE);
-    IntPoint2* dd=gen_aleat();
+    //IntPoint2* dd=gen_aleat();
+    bateau boats [2];
+    gen_bateau(boats);
+    boats[1].affiche();
+    zone_possible(boats[1]);
+    deplace_bateau(boats[1]);
+    boats[1].affiche();
     endGraphics();
 
  return (0);

@@ -15,4 +15,10 @@ public:
     void sety(int n_y);
     int getx();
     int gety();
+    void capture_tresor(bool B);
 };
+
+void gen_bateau(bateau boats[2]);
+
+
+
