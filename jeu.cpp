@@ -13,7 +13,13 @@ int main() {
     carte map;
     openWindow(W,H);
     fillRect(0,0,W,H,BLUE);
-    IntPoint2* dd=gen_aleat();
+    cout << "done1" <<endl;
+    IntPoint2 p = {100, 100};
+    carte_gen_aleat(map);
+    //gen_ile(p, map);
+    cout << "done2" <<endl;
+    affiche_carte(map);
+    cout << "done";
     endGraphics();
 
  return (0);

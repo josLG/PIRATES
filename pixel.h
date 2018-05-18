@@ -19,4 +19,5 @@ public:
     void passagebateau();
     void departbateau();
     void changesurbrillance();
+    void setTerre(bool b);
 };

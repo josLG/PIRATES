@@ -30,6 +30,10 @@ bool pixel::getSurbrillance(){ //renvoie la valeur du bool surbrillance
     return(surbrillance);
 }
 
+void pixel::setTerre(bool b){    //modifie la valeur du bool terre
+    terre = b;
+}
+
 void pixel::passagebateau(){   //change la valeur du bool occupe pour true
     occupe = true;
 }
