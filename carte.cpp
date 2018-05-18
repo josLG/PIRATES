@@ -40,3 +40,8 @@ IntPoint2 gen_point(int x,int y,int l){
     return p;
 }
 
+//Génère 2 bases pour les joueurs 0 et 1
+void gen_bases(){
+    fillRect(1,1,w_base,w_base,Imagine::MAGENTA);
+    fillRect(W-w_base,W-w_base,w_base,w_base, Imagine::MAGENTA);
+}
