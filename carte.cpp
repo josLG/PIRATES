@@ -44,23 +44,36 @@ void gen_ile(IntPoint2 p, carte &map){
 
     for (int i=0; i<2*taille_max_ile+1; i++){
         for (int j=0; j<2*taille_max_ile+1; j++){
-            IntPoint2 q = {x+i, y+i};
-            int in = i-10;
-            int jn = j-10;
+            int in = i-taille_max_ile;
+            int jn = j-taille_max_ile;
             if ((x+in >=0) && (x+in < W) && (y+jn >=0) && (y+jn < H)){
-                if (((map.grille[(x+in)+W*(y+jn)]).getTerre() == false) & (dist_max(q, p)<taille_max_ile)){            //s'ils sont de l'eau et pas trop loin, on tire un Bernoulli
-                    double d = (double)(dist_max(q, p));
-                    bool retenu = (bernoulli(d/t_max)==1);
-                    cout <<retenu;
+                if (((map.grille[(x+in)+W*(y+jn)]).getTerre() == false)){            //s'ils sont de l'eau et pas trop loin, on tire un Bernoulli
+                    int d = (int) sqrt((double) in*in + jn*jn);
+                    int a = bernoulli(d/t_max);
+                    bool retenu = (a==1);
+                    //cout <<"retenu = " <<retenu ;
                     //si le Bernoulli est 1 ou la distance est inférieure à 5, ils deviennent de la terre
-                    if (retenu or dist_max(p, q)<10){
+                    if (retenu){
                         (map.grille[(x+in)+W*(y+jn)]).setTerre(true);
+                        for (int k=-taille_min_ile; k<taille_min_ile+1; k++){
+                            for (int l=-taille_min_ile; l<taille_min_ile+1; l++){
+                                if (k*k+l*l < taille_min_ile*taille_min_ile){
+                                    cout <<"k= "<<k <<"l= " << l;
+                                    (map.grille[(x+in+k)+W*(y+jn+l)]).setTerre(true);
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
+
+    //on remplit les "trous" en faisant que tous les points à moins de taille_min_ile de distance d'un point qui est de la terre devienennt eux-mêmes de la terre
+
+
 }
+
 
 
 void affiche_carte(carte map){
@@ -68,7 +81,7 @@ void affiche_carte(carte map){
         for (int j=0;j<W; j++){
             //cout <<(map.grille[i+W*j].getTerre());
             if (map.grille[i+W*j].getTerre()){
-                fillRect(i,j,z,z,Imagine::YELLOW);
+                fillRect(i,j,1,1,Imagine::YELLOW);
             }
         }
     }
@@ -76,23 +89,70 @@ void affiche_carte(carte map){
 
 
 int bernoulli(double p){
-    int retour = 0;
+    int retour = 1;
     double nb = (double)rand()/RAND_MAX;
     if ( nb < p )
     {
-        retour = 1;
+        retour = 0;
     }
     return retour;
 }
 
 
-int dist_max(IntPoint2 p, IntPoint2 q){   //distance (au sens des iles) entre les points p et q
-    int d1 = abs(p.x() - q.x());
-    int d2 = abs(p.y() - q.y());
-    if (d1<d2){
-        return(d2);
+int dist(IntPoint2 p, IntPoint2 q){   //distance (au sens des iles) entre les points p et q
+    double x1 = (double) p.x();
+    double x2 = (double) q.x();
+    double y1 = (double) p.y();
+    double y2 = (double) q.y();
+    double d1 = (x1-x2)*(x1-x2);
+    double d2 = (y1-y2)*(y1-y2);
+    int d = (sqrt(d1+d2));
+    return(d);
+
+}
+
+//Génère 2 bases pour les joueurs 0 et 1
+void gen_bases(){
+    fillRect(0,0,w_base,w_base,Imagine::MAGENTA);
+    fillRect(W-w_base,W-w_base,w_base,w_base, Imagine::MAGENTA);
+}
+
+//place un trésor sur la carte
+void tresor(carte map){
+    bool b = true;  //indique qu'on a pas encore placé le trésor
+    while (b){
+        int i = rand()%W;
+        int j = rand()%H;
+        IntPoint2 p = {i, j};
+        if (convient_tresor(map, p)){
+            (map.grille[i+W*j]).setTresor(true);
+            fillRect(i-(range_bateau),j-(range_bateau),2*range_bateau,2*range_bateau,Imagine::GREEN);
+            b = false;
+        }
+        cout <<"i =" <<i <<" "<<"j =" <<j <<" " <<endl;
     }
-    else{
-        return(d1);
+}
+
+//renvoie true si le point p peut accueillir un trésor
+bool convient_tresor(carte map, IntPoint2 p){
+    int x = p.x();
+    int y = p.y();
+    bool d_ok = false;
+    if (map.grille[x + W*y].getTerre()){
+        for (int i=0; i<2*range_bateau+1; i++){
+            for (int j=0; j<2*range_bateau+1; j++){
+                int in = i-range_bateau;
+                int jn = j-range_bateau;
+                int xn = x+in;
+                int yn = y+jn;
+                if (map.grille[xn + W*yn].getTerre()==false){
+                    fillRect(xn,yn,1,1,Imagine::MAGENTA);
+                    cout<<"xn =" <<xn <<" "<<"yn =" <<yn <<" " <<endl;
+                    d_ok = true;
+                }
+            }
+        }
     }
+    cout <<"x =" <<x <<" "<<"y =" <<y <<" " <<endl;
+    return(d_ok);
 }
