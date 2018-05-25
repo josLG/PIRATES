@@ -15,24 +15,20 @@ using namespace std;
 
 const int W=300;
 const int H=300;
-const int taille_max_ile = 30;
+const int taille_max_ile = 25;
 const int taille_min_ile = 5;
 const double t_max = (double)taille_max_ile;
 const int z=10;
 const int w_base= 30;
 const int range_bateau = 10;
 
-struct carte{
-    pixel grille[W*H];
-};
+typedef MultiArray<pixel, 2> carte;
 
 void gen_aleat(IntPoint2* ile);
 
 void affiche_carte(carte map);
 
 IntPoint2 gen_point(int x,int y,int l);
-
-int dist(IntPoint2 p, IntPoint2 q);
 
 void carte_gen_aleat(carte &map);
 

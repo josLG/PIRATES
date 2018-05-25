@@ -9,7 +9,7 @@
 int main() {
     srand((unsigned int)time(0));
     //Génération de la carte
-    carte map;
+    carte map(W, H);
     openWindow(W,H);
     fillRect(0,0,W,H,BLUE);
     cout << "done1" <<endl;
@@ -17,8 +17,8 @@ int main() {
     cout << "done2" <<endl;
     affiche_carte(map);
     cout << "done";
-    gen_bases(); //les bases de départ
-    tresor(map);    //la position initiale du trésor
+    //gen_bases(); //les bases de départ
+    //tresor(map);    //la position initiale du trésor
     //IntPoint2* dd=gen_aleat();
 
     //Génération des bateaux
