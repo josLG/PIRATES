@@ -1,7 +1,7 @@
 #include "pixel.h"
 
 pixel::pixel(){    //constructeur par défaut
-    c = BLUE;
+    c = Imagine::BLUE;
     terre = false;
     occupe = false;
     surbrillance = false;
@@ -15,7 +15,7 @@ pixel::pixel(Imagine::Color n_c, bool n_terre, bool n_occupe, bool n_surbrillanc
 }
 
 Imagine::Color pixel::getColor(){
-
+    return(c);
 }
 
 bool pixel::getTerre(){    //renvoie la valeur du bool terre
@@ -32,7 +32,11 @@ bool pixel::getSurbrillance(){ //renvoie la valeur du bool surbrillance
 }
 
 void pixel::setTerre(bool b){    //modifie la valeur du bool terre
-    terre = b;
+    if (b)
+        c=Imagine::YELLOW;
+    else
+        c=Imagine::BLUE;
+     terre = b;
 }
 
 void pixel::passagebateau(){   //change la valeur du bool occupe pour true
@@ -53,5 +57,11 @@ bool pixel::getTresor(){    //renvoie la valeur du bool tresor
 }
 
 void pixel::setTresor(bool b){    //modifie la valeur du bool tresor
+    if (b)
+        c=Imagine::GREEN;
     tresor = b;
+}
+
+void pixel::setColor(Color n_c){
+    c=n_c;
 }

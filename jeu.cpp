@@ -25,33 +25,22 @@ void waiting_click(int x1, int y1, int x2, int y2){
         getMouse(mouse_x,mouse_y);
 }
 
-int main() {
+int main()
+{
     srand((unsigned int)time(0));
 
-    openWindow(W,H);
+    Window W_MAIN=openWindow(W,H);
     //Génération de la carte
     carte map(W,H);
 
-    bienvenue();
-    waiting_click(250,282,443,347);
+    //bienvenue();
+    //waiting_click(250,282,443,347);
     fillRect(0,0,W,H,BLUE);
-    /*carte_gen_aleat(map);
-    cout << "done2" <<endl;
+    carte_gen_aleat(map);
     affiche_carte(map);
-    cout << "done";
+
     gen_bases(); //les bases de départ
-    tresor(map);    //la position initiale du trésor
-    //IntPoint2* dd=gen_aleat();*/
-    /*map(20,13).setTerre(true);
-    map(20,14).setTerre(true);
-    map(20,15).setTerre(true);
-    map(20,6).setTerre(true);
-    map(20,17).setTerre(true);
-    map(20,18).setTerre(true);
-    map(20,19).setTerre(true);
-    map(20,20).setTerre(true);
-    map(20,21).setTerre(true);
-    affiche_carte(map);
+    tresor(map);    //la position initiale du trésor*/
 
     //Génération des bateaux
     bateau boats [2];
@@ -60,9 +49,10 @@ int main() {
     boats[1].affiche();
     zone_possible(boats[0]);
     deplace_bateau(boats[0],map);
-    boats[0].affiche();*/
+    boats[0].affiche();
+    bool k=attaque(boats[0],boats[1],map);
     endGraphics();
 
- return (0);
+ return 0;
 }
 

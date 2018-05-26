@@ -64,11 +64,11 @@ void deplace_bateau(bateau &B, carte map){
 }
 
 //Renvoie True si le point cliqué est hors du champs de navigation
-bool hors_du_champs(int x1, int y1, int x2, int y2){
+bool hors_du_champs(int x1, int y1, int x2, int y2,carte map){
     if (sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))>rmax){
-        fillRect(x2,y2,z,z,Imagine::RED); //Dessine un petit carré rouge pour dire que c'est impossible d'aller là
+        fillCircle(x2,y2,1,Imagine::RED); //Dessine un petit carré rouge pour dire que c'est impossible d'aller là
         milliSleep(100);
-        fillRect(x2,y2,z,z,Imagine::BLUE);
+        fillCircle(x2,y2,1,(map(x2,y2)).getColor());
         return true;
     }
     return false;
@@ -81,9 +81,9 @@ bool route_impossible(carte map, vector<double> tab){ //taille_tab est la taille
         int i=(int) floor(tab[k]);
         int j=(int) floor(tab[L/2+k]);
         if (map(i,j).getTerre()){
-            fillRect(tab[L-1],tab[2*L-1],z,z,Imagine::RED); //Dessine un petit carré rouge pour dire que c'est impossible d'aller là
+            fillCircle(tab[L/2-1],tab[L-1],1,Imagine::RED); //Dessine un petit carré rouge pour dire que c'est impossible d'aller là
             milliSleep(100);
-            fillRect(tab[L-1],tab[2*L-1],z,z,Imagine::BLUE);
+            fillCircle(tab[L/2-1],tab[L-1],1,(map(tab[L/2-1],tab[L-1]).getColor()));
             return true; // Itinéraire non navigable
         }
     }
@@ -93,7 +93,7 @@ bool route_impossible(carte map, vector<double> tab){ //taille_tab est la taille
 //Reprend la fonction hors_du_champ et route_impossible
 //Renvoie True si le déplacement ne se fait pas
 bool no_move(int x1, int y1 ,int x2, int y2,carte map){
-    if (hors_du_champs(x1,y1,x2,y2))
+    if (hors_du_champs(x1,y1,x2,y2,map))
         return true;
     vector<double> tab=tab_droite(x1,y1,x2,y2);
     if (route_impossible(map,tab))
