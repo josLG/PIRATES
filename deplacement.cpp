@@ -1,50 +1,70 @@
 #include "deplacement.h"
-
+#include <cmath>
 
 void zone_possible(bateau B){
     drawCircle(B.getx(),B.gety(),rmax,Imagine::RED,3);
     B.affiche();
 }
 
-//Fait bouger graphiquement le bateau entre deux sets de coordoonées
-void droite(int x1, int y1, int x2, int y2){
+//Renvoie un tableau des points constituant la droite entre deux points donnés.
+vector<double> tab_droite(int x1, int y1, int x2, int y2){
     int it_x=abs(x1-x2);
     int it_y=abs(y1-y2);
-    double M= std::max(it_x,it_y);
-    double m=(double) (y1-y2)/(x1-x2); //coefficient directeur de la droite reliant les deux points
+    int M= std::max(it_x,it_y);
+
+    int taille_tab=2*M;
+    vector<double> tab (2*M,0);
+
+    double m=(double) (y1-y2)/(x1-x2);
+    //coefficient directeur de la droite reliant les deux points
     double p= (double) y1-m*x1; //ordonnée à l'origine
-    fillRect(x1,y1,z,z,Imagine::BLUE); //On efface la position initiale du bateau
+    cout << m << " droite "<< p << endl;
     if (abs(it_y)>abs(it_x)){
-        for (int i=1;i<abs(it_y)-1;i++){
-            double xi=(double) x1+(x2-x1)*i/M;
-            double yi=(double) m*xi+p;
-            fillRect(xi,yi,z,z,Imagine::BLACK);
-            milliSleep(30);
-            fillRect(xi,yi,z,z,Imagine::BLUE);
+        for (int i=0;i<it_y;i++){
+            double yi= (double) y1+(y2-y1)*i/it_y;
+            double xi=(double) (yi-p)/m;
+            //double xi=(double) x1+(x2-x1)*i/it_y;
+            //double yi=(double) m*xi+p;
+            tab[i]=xi;
+            tab[M+i]=yi;
             }
     }
     else{
-        for (int i=1;i<abs(it_x)-1;i++){
-            double yi=(double) y1+(y2-y1)*i/M;
-            double xi=(double) (yi-p)/m;
-            fillRect(xi,yi,z,z,Imagine::BLACK);
-            milliSleep(30);
-            fillRect(xi,yi,z,z,Imagine::BLUE);
+        for (int i=0;i<it_x;i++){
+            double xi= (double) x1+(x2-x1)*i/it_x;
+            double yi=(double) m*xi+p;
+            cout << xi << " coord "<< yi << endl;
+            tab[i]=xi;
+            tab[M+i]=yi;
             }
         }
-    fillRect(x2,y2,z,z,Imagine::BLACK); //On laisse afficher la position finale du bateau
+    return tab;
+}
+
+
+//Simule un déplacement du bateau continu
+void move_graphique(int x1, int y1, int x2, int y2){
+    vector<double> trajet=tab_droite(x1,y1,x2,y2);
+    fillRect(x1,y1,z,z,Imagine::BLUE); //On efface la position initiale du bateau
+    for (int i=0; i<trajet.size()/2;i++){
+        fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLACK);
+        milliSleep(10);
+        fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLUE);//On laisse afficher la position finale du bateau
+    }
 }
 
 //Fait bouger formellement le bateau
-void deplace_bateau(bateau &B){
+void deplace_bateau(bateau &B, carte map){
     int mouse_x,mouse_y;
-    do
-        getMouse(mouse_x,mouse_y); //On récupère la position désirée par l'utilisateur
-    while(hors_du_champs(B.getx(),B.gety(),mouse_x,mouse_y));
+    getMouse(mouse_x,mouse_y);//On récupère la position désirée par l'utilisateur
+    while(no_move(B.getx(),B.gety(),mouse_x-z/2,mouse_y-z/2,map))
+         getMouse(mouse_x,mouse_y);
 
-    droite(B.getx(),B.gety(),mouse_x-z/2,mouse_y-z/2); //Déplacement en fondu
-    B.setx(mouse_x-z/2);
-    B.sety(mouse_y-z/2);
+    //droite(B.getx(),B.gety(),); //Déplacement en fondu
+    move_graphique(B.getx(),B.gety(),mouse_x,mouse_y);
+    B.setx(mouse_x);
+    B.sety(mouse_y);
+
 }
 
 //Renvoie True si le point cliqué est hors du champs de navigation
@@ -58,5 +78,26 @@ bool hors_du_champs(int x1, int y1, int x2, int y2){
     return false;
 }
 
+//Renvoie True si il y a une case Terre sur l'itinéraire de droite prévue
+bool route_impossible(carte map, vector<double> tab){ //taille_tab est la taille de tab, de 1 à taille/2 c'est les x, et après c'est y
+    for (int k=0; k<tab.size()/2; k++){
+        int i=(int) floor(tab[k]);
+        int j=(int) floor(tab[tab.size()/2+k]);
+        if (map(i,j).getTerre())
+                return true; // Itinéraire non navigable
+        }
+    return false; // itinéraire navigable
+}
+
+//Reprend la fonction hors_du_champ et route_impossible
+//Renvoie True si le déplacement ne se fait pas
+bool no_move(int x1, int y1 ,int x2, int y2,carte map){
+    if (hors_du_champs(x1,y1,x2,y2))
+        return true;
+    vector<double> tab=tab_droite(x1,y1,x2,y2);
+    if (route_impossible(map,tab))
+        return true;
+    return false;
+}
 
 

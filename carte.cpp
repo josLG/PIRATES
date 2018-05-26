@@ -25,7 +25,7 @@ using namespace std;
 void affiche_carte(carte map){
     for (int i=0; i<H; i++){
         for (int j=0;j<W; j++){
-            if (map.grille[i].getColor()==YELLOW){
+            if (map(i,j).getColor()==YELLOW){
                 fillRect(i,j,z,z,Imagine::YELLOW);
             }
         }
