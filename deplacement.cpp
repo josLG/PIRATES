@@ -18,13 +18,11 @@ vector<double> tab_droite(int x1, int y1, int x2, int y2){
     double m=(double) (y1-y2)/(x1-x2);
     //coefficient directeur de la droite reliant les deux points
     double p= (double) y1-m*x1; //ordonnée à l'origine
-    cout << m << " droite "<< p << endl;
+
     if (abs(it_y)>abs(it_x)){
         for (int i=0;i<it_y;i++){
             double yi= (double) y1+(y2-y1)*i/it_y;
             double xi=(double) (yi-p)/m;
-            //double xi=(double) x1+(x2-x1)*i/it_y;
-            //double yi=(double) m*xi+p;
             tab[i]=xi;
             tab[M+i]=yi;
             }
@@ -33,7 +31,6 @@ vector<double> tab_droite(int x1, int y1, int x2, int y2){
         for (int i=0;i<it_x;i++){
             double xi= (double) x1+(x2-x1)*i/it_x;
             double yi=(double) m*xi+p;
-            cout << xi << " coord "<< yi << endl;
             tab[i]=xi;
             tab[M+i]=yi;
             }
@@ -60,7 +57,6 @@ void deplace_bateau(bateau &B, carte map){
     while(no_move(B.getx(),B.gety(),mouse_x-z/2,mouse_y-z/2,map))
          getMouse(mouse_x,mouse_y);
 
-    //droite(B.getx(),B.gety(),); //Déplacement en fondu
     move_graphique(B.getx(),B.gety(),mouse_x,mouse_y);
     B.setx(mouse_x);
     B.sety(mouse_y);
@@ -81,11 +77,16 @@ bool hors_du_champs(int x1, int y1, int x2, int y2){
 //Renvoie True si il y a une case Terre sur l'itinéraire de droite prévue
 bool route_impossible(carte map, vector<double> tab){ //taille_tab est la taille de tab, de 1 à taille/2 c'est les x, et après c'est y
     for (int k=0; k<tab.size()/2; k++){
+        int L=tab.size();
         int i=(int) floor(tab[k]);
-        int j=(int) floor(tab[tab.size()/2+k]);
-        if (map(i,j).getTerre())
-                return true; // Itinéraire non navigable
+        int j=(int) floor(tab[L/2+k]);
+        if (map(i,j).getTerre()){
+            fillRect(tab[L-1],tab[2*L-1],z,z,Imagine::RED); //Dessine un petit carré rouge pour dire que c'est impossible d'aller là
+            milliSleep(100);
+            fillRect(tab[L-1],tab[2*L-1],z,z,Imagine::BLUE);
+            return true; // Itinéraire non navigable
         }
+    }
     return false; // itinéraire navigable
 }
 

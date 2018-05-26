@@ -22,12 +22,17 @@ bool pixel::getTerre(){    //renvoie la valeur du bool terre
     return(terre);
 }
 
+
 bool pixel::getOccupe(){   //renvoie la valeur du bool occupe
     return(occupe);
 }
 
 bool pixel::getSurbrillance(){ //renvoie la valeur du bool surbrillance
     return(surbrillance);
+}
+
+void pixel::setTerre(bool b){    //modifie la valeur du bool terre
+    terre = b;
 }
 
 void pixel::passagebateau(){   //change la valeur du bool occupe pour true
@@ -41,4 +46,12 @@ void pixel::departbateau(){    //change la valeur du bool occupe pour false
 void pixel::changesurbrillance(){  //change la valeur du bool surbrillance
     bool n_surbrillance = !(surbrillance);
     surbrillance = n_surbrillance;
+}
+
+bool pixel::getTresor(){    //renvoie la valeur du bool tresor
+    return(tresor);
+}
+
+void pixel::setTresor(bool b){    //modifie la valeur du bool tresor
+    tresor = b;
 }
