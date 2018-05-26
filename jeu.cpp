@@ -30,11 +30,12 @@ int main()
     srand((unsigned int)time(0));
 
     Window W_MAIN=openWindow(W,H);
+
     //Génération de la carte
     carte map(W,H);
 
-    //bienvenue();
-    //waiting_click(250,282,443,347);
+    bienvenue();
+    waiting_click(250,282,443,347);
     fillRect(0,0,W,H,BLUE);
     carte_gen_aleat(map);
     affiche_carte(map);
@@ -50,7 +51,7 @@ int main()
     zone_possible(boats[0]);
     deplace_bateau(boats[0],map);
     boats[0].affiche();
-    bool k=attaque(boats[0],boats[1],map);
+    bool k=attaque(boats[0],boats[1],map,W_MAIN);
     endGraphics();
 
  return 0;
