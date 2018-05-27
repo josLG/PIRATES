@@ -5,7 +5,6 @@
 #include "evenement.h"
 #include "deplacement.h"
 
-const int pasdaff = 50;
 
 //Affiche l'image d'accueil du jeu
 void bienvenue(){
@@ -76,8 +75,6 @@ int main()
     carte_gen_aleat(map);
     affiche_carte(map);
     menu_choix();
-    int c = choix(17, 500+16, 221, 500+79, 276, 500+16, 481, 500+79);
-    cout <<"c=" <<c <<" ";
     gen_bases(); //les bases de départ
     tresor(map);    //la position initiale du trésor*/
 
@@ -95,6 +92,7 @@ int main()
 
     while (partiefinie==false) //si la partie n'est pas finie, un nouveau tour commence
     {
+        menu_choix();
         fillRect(0,0,W,H,BLUE);
         affiche_carte(map);
         gen_bases();
