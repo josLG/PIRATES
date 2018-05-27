@@ -29,8 +29,13 @@ int bateau::getx(){
 int bateau::gety(){
     return yb;
 }
+
 void bateau::capture_tresor(bool B){
     tresor=B; // le bateau possède le trésor <-> B=true
+}
+
+bool bateau::getTresor(){
+    return(tresor);
 }
 
 void gen_bateau(bateau* boats){

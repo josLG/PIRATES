@@ -16,8 +16,8 @@ using namespace std;
 
 const int W=500;
 const int H=500;
-const int taille_max_ile = 25;
-const int taille_min_ile = 5;
+const int taille_max_ile = 50;
+const int taille_min_ile = 10;
 const double t_max = (double)taille_max_ile;
 const int z=10;
 const int w_base= 30;

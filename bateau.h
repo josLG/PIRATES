@@ -16,6 +16,7 @@ public:
     int getx();
     int gety();
     void capture_tresor(bool B);
+    bool getTresor();
 };
 
 void gen_bateau(bateau boats[2]);

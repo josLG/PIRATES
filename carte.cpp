@@ -86,7 +86,7 @@ void affiche_carte(carte map){
     for (int i=0; i<H; i++){
         for (int j=0;j<W; j++){
             if ((map(i, j)).getTresor())
-                fillRect(i-(range_bateau/2),j-(range_bateau/2),range_bateau,range_bateau,Imagine::GREEN);
+                fillRect(i-(range_bateau),j-(range_bateau),2*range_bateau,2*range_bateau,Imagine::GREEN);
         }
     }
 }
@@ -119,7 +119,7 @@ void tresor(carte map){
         IntPoint2 p = {i, j};
         if (convient_tresor(map, p)){
             (map(i, j)).setTresor(true);
-            fillRect(i-(range_bateau/2),j-(range_bateau/2),range_bateau,range_bateau,Imagine::GREEN);
+            fillRect(i-(range_bateau),j-(range_bateau/2),range_bateau,range_bateau,Imagine::GREEN);
             b = false;
         }
     }
@@ -133,10 +133,10 @@ bool convient_tresor(carte map, IntPoint2 p){
     int y = p.y();
     bool d_ok = false;
     if ((map(x, y)).getTerre()){
-        for (int i=0; i<range_bateau+1; i++){
-            for (int j=0; j<range_bateau+1; j++){
-                int in = i-range_bateau/2;
-                int jn = j-range_bateau/2;
+        for (int i=0; i<range_bateau/2+1; i++){
+            for (int j=0; j<range_bateau/2+1; j++){
+                int in = i-range_bateau/4;
+                int jn = j-range_bateau/4;
                 int xn = x+in;
                 int yn = y+jn;
                 if ((xn >=0) && (xn < W) && (yn >=0) && (yn < H)){
@@ -149,3 +149,4 @@ bool convient_tresor(carte map, IntPoint2 p){
     }
    return(d_ok);
 }
+
