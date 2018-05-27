@@ -34,8 +34,8 @@ void bateau::capture_tresor(bool B){
 }
 
 void gen_bateau(bateau* boats){
-    bateau pirate1=bateau(300,300,0,false);
-    bateau pirate2=bateau(W-w_base,W-w_base,1,false);
+    bateau pirate1=bateau(w_base/2, w_base/2,0,false);
+    bateau pirate2=bateau(W-w_base/2,W-w_base/2,1,false);
     boats[0]=pirate1;
     boats[1]=pirate2;
 }

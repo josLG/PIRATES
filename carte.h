@@ -25,7 +25,7 @@ const int w_base= 30;
 
 typedef MultiArray<pixel,2> carte;
 
-const int range_bateau = 10;
+const int range_bateau = 20;
 
 
 void gen_aleat(IntPoint2* ile);

@@ -46,15 +46,17 @@ void waiting_click(int x1, int y1, int x2, int y2){
 int choix(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
     int mouse_x, mouse_y;
     getMouse(mouse_x,mouse_y);
-    while((mouse_x<x1)||(mouse_x>x2)||(mouse_y<y1)||(mouse_y>y2)&&(mouse_x<x3)||(mouse_x>x4)||(mouse_y<y3)||(mouse_y>y4)){
+    while(((mouse_x<x1)||(mouse_x>x2)||(mouse_y<y1)||(mouse_y>y2))&&((mouse_x<x3)||(mouse_x>x4)||(mouse_y<y3)||(mouse_y>y4))){
         getMouse(mouse_x,mouse_y);
     }
-    if ((mouse_x>=x1)||(mouse_x<=x2)||(mouse_y>=y1)||(mouse_y<=y2)){
+    if ((mouse_x>=x1)&&(mouse_x<=x2)&&(mouse_y>=y1)&&(mouse_y<=y2)){
         return(0);
     }
-    if ((mouse_x>=x3)||(mouse_x<=x4)||(mouse_y>=y3)||(mouse_y<=y4)){
+    if ((mouse_x>=x3)&&(mouse_x<=x4)&&(mouse_y>=y3)&&(mouse_y<=y4)){
         return(1);
     }
+
+
 }
 
 
@@ -75,19 +77,19 @@ int main()
     affiche_carte(map);
     menu_choix();
     int c = choix(17, 500+16, 221, 500+79, 276, 500+16, 481, 500+79);
-    cout <<c;
+    cout <<"c=" <<c <<" ";
     gen_bases(); //les bases de départ
     tresor(map);    //la position initiale du trésor*/
 
     //Génération des bateaux
     bateau boats [2];
     gen_bateau(boats);
-//    boats[0].affiche();
-//    boats[1].affiche();
+    boats[0].affiche();
+    boats[1].affiche();
 //    zone_possible(boats[0]);
 //    deplace_bateau(boats[0],map);
 //    boats[0].affiche();
-    //bool k = attaque(boats[0],boats[1],map,W_MAIN);
+//    bool k = attaque(boats[0],boats[1],map,W_MAIN);
 
     int tour = 0;
 
@@ -95,19 +97,21 @@ int main()
     {
         fillRect(0,0,W,H,BLUE);
         affiche_carte(map);
+        gen_bases();
         boats[0].affiche();
         boats[1].affiche();
         bool k = false;
         int c = choix(17, 500+16, 221, 500+79, 276, 500+16, 481, 500+79);
-        if (c=0){
+        cout <<"c=" <<c <<" ";
+        if (c==0){
             zone_possible(boats[tour]);
             deplace_bateau(boats[tour],map);
             boats[tour].affiche();
         }
-        if (c=1){
+        if (c==1){
             k = attaque(boats[tour], boats[(tour+1)%2], map, W_MAIN);
         }
-
+        setActiveWindow(W_MAIN);
 
         tour = (tour+1)%2;
     }
