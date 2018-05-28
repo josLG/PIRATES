@@ -1,5 +1,7 @@
 #include "attaque.h"
 
+
+
 //Renvoie True si l'attaquant a réussi son attaque
 bool attaque(bateau atq, bateau cible, carte map, Window W){
     //Ouverture de la fenetre ou se joue l'attaque
@@ -35,14 +37,16 @@ bool attaque(bateau atq, bateau cible, carte map, Window W){
 
     //Si le joueur a pris trop de temps pour tirer ou si il a visé à côté ...
     if (((temps>lim_temps))||(shoot_fail(map,tir,p_cible))){
-        fillRect(0,0,w_attaque,h_attaque,WHITE);  //c'est la défaite, je prépare une image pour ça
-        milliSleep(1000);
-        //endGraphics();
+        //c'est la défaite, je prépare une image pour ça
+        attaque_failure();
+        milliSleep(2000);
         closeWindow(W_ATT);
         return false;
     }
-
-    fillRect(0,0,w_attaque,h_attaque,RED); //c'est la victoire, je prépare une image pour ça
+    //c'est la victoire, je prépare une image pour ça
+    attaque_success();
+    milliSleep(2000);
+    closeWindow(W_ATT);
     return true;
 }
 
@@ -80,3 +84,29 @@ IntPoint2 pos_cible(bateau atq, bateau cible){
 }
 
 //Partie graphique
+
+void attaque_success(){
+    byte* r=new byte[500*800];
+    byte* g=new byte[500*800];
+    byte* b=new byte[500*800];
+    int w_att, h_att;
+    loadColorImage(srcPath("attaque_success.bmp"),r,g,b,w_att,h_att);
+    putColorImage(0,0,r,g,b,w_att,h_att);
+    delete r;
+    delete g;
+    delete b;
+}
+
+void attaque_failure(){
+    byte* r=new byte[500*800];
+    byte* g=new byte[500*800];
+    byte* b=new byte[500*800];
+    int w_att, h_att;
+    loadColorImage(srcPath("attaque_failure.bmp"),r,g,b,w_att,h_att);
+    putColorImage(0,0,r,g,b,w_att,h_att);
+    delete r;
+    delete g;
+    delete b;
+}
+
+
