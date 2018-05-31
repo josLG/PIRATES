@@ -8,16 +8,11 @@
 
 //Affiche l'image d'accueil du jeu
 void bienvenue(){
-    byte* r=new byte[500*500];
-    byte* g=new byte[500*500];
-    byte* b=new byte[500*500];
-    int w_bienvenue, h_bienvenue;
-    loadColorImage(srcPath("bienvenue.bmp"),r,g,b,w_bienvenue,h_bienvenue);
-    putColorImage(0,0,r,g,b,w_bienvenue,h_bienvenue);
-    delete r;
-    delete g;
-    delete b;
+    Image<AlphaColor> Ib;
+    load(Ib,srcPath("bienvenue.png"));
+    display(Ib,0,0);
 }
+
 
 //Affiche le menu de choix du jeu
 void menu_choix(){

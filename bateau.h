@@ -1,6 +1,7 @@
 #pragma once
 #include <Imagine/Graphics.h>
 #include "carte.h"
+#include <Imagine/Images.h>
 
 class bateau {
     int xb;
@@ -17,9 +18,9 @@ public:
     int gety();
     void capture_tresor(bool B);
     bool getTresor();
+    void dessine_png();
 };
 
 void gen_bateau(bateau boats[2]);
-
 
 

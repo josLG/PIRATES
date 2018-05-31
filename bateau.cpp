@@ -44,3 +44,11 @@ void gen_bateau(bateau* boats){
     boats[0]=pirate1;
     boats[1]=pirate2;
 }
+
+//Affiche un bateau
+void bateau::dessine_png(){
+    Image<AlphaColor> Ib;
+    load(Ib,srcPath("boat0rose.bmp"));                // Load Image
+    createMaskFromColor(Ib,Color(243,20,255));
+    display(Ib,xb,yb);
+}

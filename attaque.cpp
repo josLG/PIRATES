@@ -7,7 +7,10 @@ bool attaque(bateau atq, bateau cible, carte map, Window W){
     //Ouverture de la fenetre ou se joue l'attaque
     Window W_ATT= openWindow(w_attaque,h_attaque,"A l'abordage");
     setActiveWindow(W_ATT);
-    fillRect(0,0,w_attaque,h_attaque,BLUE);
+    debut_attaque();
+    wait_any_clic();
+
+    carte_attaque();
 
     //Position de l'attaquant en haut de la fenetre
     IntPoint2 p_atq={w_attaque/2,0};
@@ -21,14 +24,15 @@ bool attaque(bateau atq, bateau cible, carte map, Window W){
 
     //Affichage du bateau adverse
     fillRect(p_cible,z,z,BLACK);
-    double dist=dist_interbateaux(atq,cible);
-    drawCircle(p_atq,dist/2+visee,RED);
+    double dist_init=dist_interbateaux(atq,cible);
+    drawCircle(p_atq,dist_init/2+visee,RED,2);
     auto t1 = Clock::now();
     //L'attaquant calibre son tir et est chronométré
     IntPoint2 p_mouse;
     getMouse(p_mouse);
     auto t2 = Clock::now();
-    drawLine(p_atq,p_mouse,MAGENTA); //Tracé de la trajectoire du tir
+    fillCircle(p_mouse,2,RED);
+    drawLine(p_atq,p_mouse,MAGENTA,2); //Tracé de la trajectoire du tir
     milliSleep(2000);
 
     //Temps pris par le joueur pour tirer
@@ -36,7 +40,7 @@ bool attaque(bateau atq, bateau cible, carte map, Window W){
     vector<double> tir=tab_droite(p_atq.x(),p_atq.y(),p_mouse.x(),p_mouse.y());
 
     //Si le joueur a pris trop de temps pour tirer ou si il a visé à côté ...
-    if (((temps>lim_temps))||(shoot_fail(map,tir,p_cible))){
+    if (((temps>lim_temps))||(shoot_fail(map,tir,p_cible))||mauvais_clic(p_mouse,dist_init)){
         //c'est la défaite, je prépare une image pour ça
         attaque_failure();
         milliSleep(2000);
@@ -62,6 +66,21 @@ bool shoot_fail(carte map, vector<double> tab, IntPoint2 p_cible){ //taille_tab 
     }
     return true; // Le tir est effectivement raté
 }
+//Renvoie True si le joueur a cliqué au dessus du cercle rouge
+bool mauvais_clic(IntPoint2 p, double dist_carte){
+    double dist=dist_interpoints(w_attaque/2,0,p.x(),p.y());
+    if (dist<visee+dist_carte/2)
+        return true;
+    return false;
+}
+//Calcule la distance entre deux points
+
+double dist_interpoints(int x1, int y1, int x2, int y2){
+    int d_x=x1-x2;
+    int d_y=y1-y2;
+    double dist=sqrt(d_x*d_x+d_y*d_y);
+    return dist;
+}
 
 //Calcule la distance entre deux bateaux
 double dist_interbateaux(bateau atq, bateau cible){
@@ -83,30 +102,35 @@ IntPoint2 pos_cible(bateau atq, bateau cible){
     return pos;
 }
 
-//Partie graphique
-
+///Partie graphique
+//Affiche l'image de tir réussi
 void attaque_success(){
-    byte* r=new byte[500*800];
-    byte* g=new byte[500*800];
-    byte* b=new byte[500*800];
-    int w_att, h_att;
-    loadColorImage(srcPath("attaque_success.bmp"),r,g,b,w_att,h_att);
-    putColorImage(0,0,r,g,b,w_att,h_att);
-    delete r;
-    delete g;
-    delete b;
+    Image<AlphaColor> Ib;
+    load(Ib,srcPath("attaque_success.bmp"));
+    display(Ib,0,0);
 }
-
+//Affiche l'image de tir raté
 void attaque_failure(){
-    byte* r=new byte[500*800];
-    byte* g=new byte[500*800];
-    byte* b=new byte[500*800];
-    int w_att, h_att;
-    loadColorImage(srcPath("attaque_failure.bmp"),r,g,b,w_att,h_att);
-    putColorImage(0,0,r,g,b,w_att,h_att);
-    delete r;
-    delete g;
-    delete b;
+    Image<AlphaColor> Ib;
+    load(Ib,srcPath("attaque_failure.bmp"));
+    display(Ib,0,0);
 }
 
+//Affiche l'image de début d'attaque
+void debut_attaque(){
+    Image<AlphaColor> Ib;
+    load(Ib,srcPath("attaque_beginning.bmp"));
+    display(Ib,0,0);
+}
+//Attend un clic pour continuer
+void wait_any_clic(){
+    IntPoint2 p;
+    getMouse(p);
+}
 
+//Affiche l'image pendant l'attaque
+void carte_attaque(){
+    Image<AlphaColor> Ib;
+    load(Ib,srcPath("carte_attaque.png"));
+    display(Ib,0,0);
+}
