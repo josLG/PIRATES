@@ -7,7 +7,8 @@ const int w_attaque= 800;
 const int h_attaque=500;
 
 const int visee=200;
-const int lim_temps=1500;
+const int lim_temps=1000;
+
 bool attaque(bateau atq, bateau cible, carte map, Window W);
 double dist_interbateaux(bateau atq, bateau cible);
 IntPoint2 pos_cible(bateau atq, bateau cible);
@@ -19,3 +20,4 @@ bool mauvais_clic(IntPoint2 p, double dist_carte);
 void debut_attaque();
 void wait_any_clic();
 void carte_attaque();
+void bateau_attaque();

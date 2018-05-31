@@ -14,24 +14,27 @@ bool attaque(bateau atq, bateau cible, carte map, Window W){
 
     //Position de l'attaquant en haut de la fenetre
     IntPoint2 p_atq={w_attaque/2,0};
-    fillRect(p_atq,z,z,BLACK);
+    fillCircle(p_atq,5,YELLOW);
+    bateau_attaque();
+
     //Position de la cible aléatoirement sur un cercle (dont le rayon
     //dépend de la distance de l'attaquant à la cible
     IntPoint2 p_cible=pos_cible(atq,cible);
+    double dist_init=dist_interbateaux(atq,cible);
+    drawCircle(p_atq,dist_init/2+visee,RED,2);
+
     //temps d'attente pour faire apparaitre le second bateau
     int attente=rand()%5000;
     milliSleep(attente);
 
     //Affichage du bateau adverse
     fillRect(p_cible,z,z,BLACK);
-    double dist_init=dist_interbateaux(atq,cible);
-    drawCircle(p_atq,dist_init/2+visee,RED,2);
     auto t1 = Clock::now();
     //L'attaquant calibre son tir et est chronométré
     IntPoint2 p_mouse;
     getMouse(p_mouse);
     auto t2 = Clock::now();
-    fillCircle(p_mouse,2,RED);
+    fillCircle(p_mouse,4,RED);
     drawLine(p_atq,p_mouse,MAGENTA,2); //Tracé de la trajectoire du tir
     milliSleep(2000);
 
@@ -41,13 +44,13 @@ bool attaque(bateau atq, bateau cible, carte map, Window W){
 
     //Si le joueur a pris trop de temps pour tirer ou si il a visé à côté ...
     if (((temps>lim_temps))||(shoot_fail(map,tir,p_cible))||mauvais_clic(p_mouse,dist_init)){
-        //c'est la défaite, je prépare une image pour ça
+        //c'est la défaite
         attaque_failure();
         milliSleep(2000);
         closeWindow(W_ATT);
         return false;
     }
-    //c'est la victoire, je prépare une image pour ça
+    //c'est la victoire
     attaque_success();
     milliSleep(2000);
     closeWindow(W_ATT);
@@ -94,7 +97,7 @@ double dist_interbateaux(bateau atq, bateau cible){
 IntPoint2 pos_cible(bateau atq, bateau cible){
 
     double dist=dist_interbateaux(atq,cible);
-    int theta=rand()%181;
+    int theta=20+rand()%141;
     double theta_rad=(double) theta*M_PI/180;
     double pos_cible_x=(double)w_attaque/2-dist/2*cos(theta_rad);
     double pos_cible_y=(double) dist/2*sin(theta_rad);
@@ -133,4 +136,11 @@ void carte_attaque(){
     Image<AlphaColor> Ib;
     load(Ib,srcPath("carte_attaque.png"));
     display(Ib,0,0);
+}
+
+void bateau_attaque(){
+    Image<AlphaColor> Ib2;
+    load(Ib2,srcPath("boat_attaque.png"));
+    createMaskFromColor(Ib2,Color(255,20,192));
+    display(Ib2,w_attaque/2-26,0);
 }

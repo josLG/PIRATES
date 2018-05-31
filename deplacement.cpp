@@ -1,12 +1,10 @@
 #include "deplacement.h"
 #include <cmath>
 
-void zone_possible(bateau B){
-    drawCircle(B.getx(),B.gety(),rmax,Imagine::RED,3);
-    B.affiche();
-}
+
 
 //Renvoie un tableau des points constituant la droite entre deux points donnés.
+//Les coordonnées x occupent la premiere moitie du tableau. Les y, la seconde moitie.
 vector<double> tab_droite(int x1, int y1, int x2, int y2){
     int it_x=abs(x1-x2);
     int it_y=abs(y1-y2);
@@ -39,18 +37,8 @@ vector<double> tab_droite(int x1, int y1, int x2, int y2){
 }
 
 
-//Simule un déplacement du bateau continu
-void move_graphique(int x1, int y1, int x2, int y2){
-    vector<double> trajet=tab_droite(x1,y1,x2,y2);
-    fillRect(x1,y1,z,z,Imagine::BLUE); //On efface la position initiale du bateau
-    for (int i=0; i<trajet.size()/2;i++){
-        fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLACK);
-        milliSleep(10);
-        fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLUE);//On laisse afficher la position finale du bateau
-    }
-}
-
 //Fait bouger formellement le bateau
+//Modification de ses coordonnees de position
 void deplace_bateau(bateau &B, carte map){
     int mouse_x,mouse_y;
     getMouse(mouse_x,mouse_y);//On récupère la position désirée par l'utilisateur
@@ -62,6 +50,8 @@ void deplace_bateau(bateau &B, carte map){
     B.sety(mouse_y);
 
 }
+
+///Fonctions de test intervenant lors du clic de destination
 
 //Renvoie True si le point cliqué est hors du champs de navigation
 bool hors_du_champs(int x1, int y1, int x2, int y2,carte map){
@@ -90,8 +80,8 @@ bool route_impossible(carte map, vector<double> tab){ //taille_tab est la taille
     return false; // itinéraire navigable
 }
 
-//Reprend la fonction hors_du_champ et route_impossible
-//Renvoie True si le déplacement ne se fait pas
+//Rassemble la fonction hors_du_champ et route_impossible
+//Renvoie True si le déplacement ne se fait pas.
 bool no_move(int x1, int y1 ,int x2, int y2,carte map){
     if (hors_du_champs(x1,y1,x2,y2,map))
         return true;
@@ -102,4 +92,21 @@ bool no_move(int x1, int y1 ,int x2, int y2,carte map){
 }
 
 
+///Fonctions graphiques
 
+//Dessine un cercle rouge pour la zone atteignable par le bateau
+void zone_possible(bateau B){
+    drawCircle(B.getx(),B.gety(),rmax,Imagine::RED,3);
+    B.affiche();
+}
+
+//Simule un déplacement graphique continu du bateau
+void move_graphique(int x1, int y1, int x2, int y2){
+    vector<double> trajet=tab_droite(x1,y1,x2,y2);
+    fillRect(x1,y1,z,z,Imagine::BLUE); //On efface la position initiale du bateau
+    for (int i=0; i<trajet.size()/2;i++){
+        fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLACK);
+        milliSleep(10);
+        fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLUE);//On laisse afficher la position finale du bateau
+    }
+}
