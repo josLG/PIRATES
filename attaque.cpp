@@ -28,7 +28,7 @@ bool attaque(bateau atq, bateau cible, carte map, Window W){
     milliSleep(attente);
 
     //Affichage du bateau adverse
-    fillRect(p_cible,z,z,BLACK);
+    fillRect(p_cible,15,15,BLACK);
     auto t1 = Clock::now();
     //L'attaquant calibre son tir et est chronométré
     IntPoint2 p_mouse;
@@ -63,7 +63,7 @@ bool shoot_fail(carte map, vector<double> tab, IntPoint2 p_cible){ //taille_tab 
         int L=tab.size();
         int i=(int) floor(tab[k]);
         int j=(int) floor(tab[L/2+k]);
-        if ((p_cible.x()+z>=i)&&(i>=p_cible.x())&&(p_cible.y()+z>=j)&&(j>=p_cible.y())){
+        if ((p_cible.x()+15>=i)&&(i>=p_cible.x())&&(p_cible.y()+15>=j)&&(j>=p_cible.y())){
             return false; // Le tir a bien touché le navire adverse
         }
     }

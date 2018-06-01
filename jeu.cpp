@@ -103,7 +103,7 @@ bool atteint_tresor(bateau boat, IntPoint2 t){
     int yb = boat.gety();
     int xt = t.x();
     int yt = t.y();
-    if (((xb-xt)*(xb-xt)+(yb-yt)*(yb-yt))<= 8*range_bateau){
+    if (((xb-xt)*(xb-xt)+(yb-yt)*(yb-yt))<= 16*range_bateau){
         return(true);
     }
     else
@@ -130,16 +130,6 @@ int main()
     capture_tresor();
     gen_bases(); //les bases de départ
     tresor(map);    //la position initiale du trésor*/
-
-//    int w, h;
-//    byte* rgb ;
-//    loadColorImage(srcPath("Bateau 1 Petit.bmp"), rgb, w, h);
-
-//    NativeBitmap ma_native_bitmap(w, h);
-//    ma_native_bitmap.setColorImage(0, 0, rgb, w, h);
-//    putNativeBitmap(100, 100, ma_native_bitmap);
-
-//    click();
 
     IntPoint2 t;
     for (int i=0; i<H; i++){
@@ -188,7 +178,8 @@ int main()
         }
         if (k){
             if (boats[(tour+1)%2].getTresor()){
-                boats[tour].capture_tresor(false);
+                boats[(tour+1)%2].capture_tresor(false);
+                tresor(map);
             }
             int nx = w_base/2;
             int ny = w_base/2;

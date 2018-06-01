@@ -86,8 +86,16 @@ void affiche_carte(carte map){
     }
     for (int i=0; i<H; i++){
         for (int j=0;j<W; j++){
-            if ((map(i, j)).getTresor())
+            if ((map(i, j)).getTresor()){
                 fillRect(i-(range_bateau),j-(range_bateau),2*range_bateau,2*range_bateau,Imagine::GREEN);
+                int w, h;
+                byte* rgb ;
+                loadColorImage(srcPath("Image_tresor.bmp"), rgb, w, h);
+
+                NativeBitmap ma_native_bitmap(w, h);
+                ma_native_bitmap.setColorImage(0, 0, rgb, w, h);
+                putNativeBitmap(i-w/2, j-h/2, ma_native_bitmap);
+            }
         }
     }
 }
@@ -121,6 +129,15 @@ void tresor(carte map){
         if (convient_tresor(map, p)){
             (map(i, j)).setTresor(true);
             fillRect(i-(range_bateau),j-(range_bateau/2),range_bateau,range_bateau,Imagine::GREEN);
+
+            int w, h;
+            byte* rgb ;
+            loadColorImage(srcPath("Image_tresor.bmp"), rgb, w, h);
+
+            NativeBitmap ma_native_bitmap(w, h);
+            ma_native_bitmap.setColorImage(0, 0, rgb, w, h);
+            putNativeBitmap(i-w/2, j-h/2, ma_native_bitmap);
+
             b = false;
         }
     }
@@ -148,6 +165,6 @@ bool convient_tresor(carte map, IntPoint2 p){
             }
         }
     }
-   return(d_ok);
+    return(d_ok);
 }
 

@@ -55,7 +55,7 @@ void deplace_bateau(bateau &B, carte map, int tour){
 
 //Renvoie True si le point cliqué est hors du champs de navigation
 bool hors_du_champs(int x1, int y1, int x2, int y2,carte map){
-    if (sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))>rmax){
+    if ((sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))>rmax)||(x2 > W)||(y2>H)||(x1 > W)||(y2>H)){
         fillCircle(x2,y2,1,Imagine::RED); //Dessine un petit carré rouge pour dire que c'est impossible d'aller là
         milliSleep(100);
         fillCircle(x2,y2,1,(map(x2,y2)).getColor());
