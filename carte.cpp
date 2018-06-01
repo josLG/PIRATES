@@ -27,7 +27,7 @@ IntPoint2 gen_point(int x,int y,int l){
     return p;
 }
 
-
+//Génère une carte aléatoirement
 void carte_gen_aleat(carte &map){
     IntPoint2 ile[7]; //lieu des points qui vont générer les différentes îles
     gen_aleat(ile);
@@ -37,6 +37,7 @@ void carte_gen_aleat(carte &map){
     }
 }
 
+//Génère une île à partir d'un point qui sera le centre de l'île
 void gen_ile(IntPoint2 p, carte &map){
     int x = p.x();
     int y = p.y();
@@ -75,7 +76,7 @@ void gen_ile(IntPoint2 p, carte &map){
 
 }
 
-
+//Affiche la carte (jaune pour la terre, bleu pour l'eau, vert pour le trésor)
 void affiche_carte(carte map){
     for (int i=0; i<H; i++){
         for (int j=0;j<W; j++){
@@ -91,7 +92,7 @@ void affiche_carte(carte map){
     }
 }
 
-
+//Renvoie 0 avec un probabilité p
 int bernoulli(double p){
     int retour = 1;
     double nb = (double)rand()/RAND_MAX;
@@ -127,7 +128,7 @@ void tresor(carte map){
 
 
 
-//renvoie true si le point p peut accueillir un trésor
+//renvoie true si le point p peut accueillir un trésor, c'est à dire s'il est de la terre à moins de range_bateau/2 de l'eau
 bool convient_tresor(carte map, IntPoint2 p){
     int x = p.x();
     int y = p.y();

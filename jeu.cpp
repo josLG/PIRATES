@@ -130,6 +130,17 @@ int main()
     capture_tresor();
     gen_bases(); //les bases de départ
     tresor(map);    //la position initiale du trésor*/
+
+//    int w, h;
+//    byte* rgb ;
+//    loadColorImage(srcPath("Bateau 1 Petit.bmp"), rgb, w, h);
+
+//    NativeBitmap ma_native_bitmap(w, h);
+//    ma_native_bitmap.setColorImage(0, 0, rgb, w, h);
+//    putNativeBitmap(100, 100, ma_native_bitmap);
+
+//    click();
+
     IntPoint2 t;
     for (int i=0; i<H; i++){
         for (int j=0;j<W; j++){
@@ -142,8 +153,8 @@ int main()
     //Génération des bateaux
     bateau boats [2];
     gen_bateau(boats);
-    boats[0].affiche();
-    boats[1].affiche();
+    boats[0].affiche(0);
+    boats[1].affiche(0);
 
     int tour = 0;
 
@@ -154,15 +165,15 @@ int main()
         fillRect(0,0,W,H,BLUE);
         affiche_carte(map);
         gen_bases();
-        boats[0].affiche();
-        boats[1].affiche();
+        boats[0].affiche(0);
+        boats[1].affiche(1);
         bool k = false;
         int c = choix(17, 500+16, 221, 500+79, 276, 500+16, 481, 500+79);
         if (c==0){
-            zone_possible(boats[tour]);
+            zone_possible(boats[tour], tour);
             menu_choix();
-            deplace_bateau(boats[tour],map);
-            boats[tour].affiche();
+            deplace_bateau(boats[tour],map, tour);
+            boats[tour].affiche(tour);
         }
         if (c==1){
             k = attaque(boats[tour], boats[(tour+1)%2], map, W_MAIN);
@@ -190,8 +201,8 @@ int main()
             fillRect(0,0,W,H,BLUE);
             affiche_carte(map);
             gen_bases();
-            boats[0].affiche();
-            boats[1].affiche();
+            boats[0].affiche(0);
+            boats[1].affiche(1);
         }
         if (tour==0){
             victoire_j1(boats[0], partiefinie);

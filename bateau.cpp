@@ -10,8 +10,19 @@ bateau::bateau(int n_x, int n_y, int n_joueur, bool n_tresor){
 }
 
 
-void bateau::affiche(){
+void bateau::affiche(int num){
     fillRect(xb,yb,z,z,Imagine::BLACK);
+    int w, h;
+    byte* rgb ;
+    if (num ==0){
+        loadColorImage(srcPath("Bateau 1 Petit.bmp"), rgb, w, h);
+    }
+    if (num==1){
+        loadColorImage(srcPath("Bateau 2 Petit.bmp"), rgb, w, h);
+    }
+    NativeBitmap ma_native_bitmap(w, h);
+    ma_native_bitmap.setColorImage(0, 0, rgb, w, h);
+    putNativeBitmap(xb-w/2, yb-h/2, ma_native_bitmap);
 }
 
 void bateau::setx(int n_x){

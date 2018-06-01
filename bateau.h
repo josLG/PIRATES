@@ -11,7 +11,7 @@ class bateau {
 public:
     bateau();
     bateau(int n_x, int n_y, int n_joueur, bool n_tresor);
-    void affiche();
+    void affiche(int num);
     void setx(int n_x);
     void sety(int n_y);
     int getx();

@@ -39,13 +39,13 @@ vector<double> tab_droite(int x1, int y1, int x2, int y2){
 
 //Fait bouger formellement le bateau
 //Modification de ses coordonnees de position
-void deplace_bateau(bateau &B, carte map){
+void deplace_bateau(bateau &B, carte map, int tour){
     int mouse_x,mouse_y;
     getMouse(mouse_x,mouse_y);//On récupère la position désirée par l'utilisateur
     while(no_move(B.getx(),B.gety(),mouse_x-z/2,mouse_y-z/2,map))
          getMouse(mouse_x,mouse_y);
 
-    move_graphique(B.getx(),B.gety(),mouse_x,mouse_y);
+    move_graphique(B.getx(),B.gety(),mouse_x,mouse_y, tour);
     B.setx(mouse_x);
     B.sety(mouse_y);
 
@@ -95,18 +95,29 @@ bool no_move(int x1, int y1 ,int x2, int y2,carte map){
 ///Fonctions graphiques
 
 //Dessine un cercle rouge pour la zone atteignable par le bateau
-void zone_possible(bateau B){
+void zone_possible(bateau B, int tour){
     drawCircle(B.getx(),B.gety(),rmax,Imagine::RED,3);
-    B.affiche();
+    B.affiche(tour);
 }
 
 //Simule un déplacement graphique continu du bateau
-void move_graphique(int x1, int y1, int x2, int y2){
+void move_graphique(int x1, int y1, int x2, int y2, int tour){
     vector<double> trajet=tab_droite(x1,y1,x2,y2);
     fillRect(x1,y1,z,z,Imagine::BLUE); //On efface la position initiale du bateau
     for (int i=0; i<trajet.size()/2;i++){
         fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLACK);
+        int w, h;
+        byte* rgb ;
+        if (tour ==0){
+            loadColorImage(srcPath("Bateau 1 Petit.bmp"), rgb, w, h);
+        }
+        if (tour==1){
+            loadColorImage(srcPath("Bateau 2 Petit.bmp"), rgb, w, h);
+        }
+        NativeBitmap ma_native_bitmap(w, h);
+        ma_native_bitmap.setColorImage(0, 0, rgb, w, h);
+        putNativeBitmap(trajet[i]-w/2, trajet[trajet.size()/2+i]-h/2, ma_native_bitmap);
         milliSleep(10);
-        fillRect(trajet[i],trajet[trajet.size()/2+i],z,z,Imagine::BLUE);//On laisse afficher la position finale du bateau
+        fillRect(trajet[i],trajet[trajet.size()/2+i],w,h,Imagine::BLUE);//On laisse afficher la position finale du bateau
     }
 }
